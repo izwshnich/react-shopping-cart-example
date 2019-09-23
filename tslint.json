@@ -1,0 +1,36 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "no-console": {
+      "severity": "warning"
+    },
+    "arrow-return-shorthand": [true, "multiline"],
+    "class-name": true,
+    "curly": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "private-static-field",
+          "private-instance-field",
+          "private-constructor",
+          "public-static-field",
+          "public-instance-field",
+          "public-constructor",
+          "protected-instance-method",
+          "private-instance-method",
+          "public-instance-method"
+        ]
+      }
+    ],
+    "ordered-imports": false,
+    "no-string-literal": false,
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": []
+}
