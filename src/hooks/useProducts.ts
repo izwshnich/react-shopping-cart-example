@@ -18,16 +18,11 @@ export interface ICart {
   }
 }
 
-export interface IParams {
-  id: string,
-  quantity: number,
-}
-
 export function useProducts() {
   const [products, setProducts] = useState<IProducts | null>(null)
   const initialCartState: ICart = { quantityById: {} }
   const [cart, setCart] = useState<ICart>(initialCartState)
-  const productRef = useMemo(() => database.ref('products'), [database])
+  const productRef = useMemo(() => database.ref('products'), [])
   const quantityById = useMemo(() => cart.quantityById, [cart])
 
   useEffect(() => {
@@ -38,14 +33,14 @@ export function useProducts() {
     })
   }, [productRef])
 
-  const onCheckout = useCallback((quantities: ICart['quantityById']) => {
+  const onCheckout = useCallback((quantities: { [id: string]: number }) => {
     Object.keys(quantities).forEach(key =>
       productRef.child(`${key}/inventory`).transaction(inventory => inventory - quantities[key]))
 
     setCart(initialCartState)
   }, [productRef])
 
-  const onAddToCart = useCallback<(id: IParams['id'], quantity: IParams['quantity']) => void>((id, quantity) => setCart({
+  const onAddToCart = useCallback<(id: string, quantity: number) => void>((id, quantity) => setCart({
     quantityById: {
       ...quantityById,
       [id]: (quantityById[id] || 0) + quantity

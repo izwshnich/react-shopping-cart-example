@@ -1,20 +1,18 @@
 import * as React from 'react'
 import { useContext, useMemo } from 'react'
 import { ProductsContext } from 'contexts/products'
-import { IProduct } from 'hooks/useProducts'
 import Product from './Product'
 
 const Cart = () => {
   const { products, quantityById, onCheckout } = useContext(ProductsContext)
-  const addedProductsIds: Array<IProduct['id']> = useMemo(() => Object.keys(quantityById), [quantityById])
+  const addedProductsIds: string[] = useMemo(() => Object.keys(quantityById), [quantityById])
   const totalPrice = useMemo(() => {
     if (products) {
       return addedProductsIds.map(key => products[key].price * quantityById[key]).reduce((prev, current) => prev + current, 0)
     }
-  }, [addedProductsIds, quantityById])
+  }, [quantityById])
 
   const hasProducts = useMemo(() => addedProductsIds.length > 0, [addedProductsIds])
-
   const handleCheckout = () => onCheckout(quantityById)
 
   return (
